@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -39,8 +40,17 @@ import './Tabela.css'
     },
   });
 
-  export default function StickyHeadTable({ content }) {
+  export default function StickyHeadTable(props) {
     const classes = useStyles();
+
+    async function delete_row(id){
+      try{
+          await axios.delete('http://localhost:3333/users/' + id)
+          props.load_table()
+      }catch(erro){
+          console.log(erro);
+      }    
+  }
 
     return (
       <Paper className={classes.root}>
@@ -62,7 +72,7 @@ import './Tabela.css'
               </TableRow>
             </TableHead>
             <TableBody>
-              {content.map((row) => {
+              {props.content.map((row) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
@@ -73,7 +83,7 @@ import './Tabela.css'
                         </TableCell>
                       )
                     })}
-                    <TableCell><button className='table-button' data-id={row.id}>Deletar</button></TableCell>
+                    <TableCell><button className='table-button' data-id={row.id} onClick={(event) => delete_row(event.target.dataset.id)}>Deletar</button></TableCell>
                   <TableCell><button className='table-button' data-id={row.id}>Editar</button></TableCell>
                   </TableRow>
                 );

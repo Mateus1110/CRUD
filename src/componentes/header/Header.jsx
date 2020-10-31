@@ -4,7 +4,7 @@ import './Header.css'
 
 import StickyHeadTable from '../tabela/Tabela'
 
-export default function Header(props) {
+export default function Header() {
     
     const [name, setName] = useState([])
     const [content, setContent] = useState([])
@@ -12,6 +12,7 @@ export default function Header(props) {
     useEffect(() => load_table(), [])
 
     async function load_table(){
+        console.log('atualizando tabela')
         try{
             const resposta = await axios.get('http://localhost:3333/users')
             setContent(resposta.data)
@@ -30,7 +31,6 @@ export default function Header(props) {
         }    
     }
 
-
     return (
         <Fragment>
             <header className='header'>
@@ -46,7 +46,7 @@ export default function Header(props) {
                     <button className='submit-btn' id='input-btn'>Confirmar</button>
                 </form>
             </header>
-            <StickyHeadTable content={content}/>
+            <StickyHeadTable content={content} load_table={load_table}/>
         </Fragment>
     )
 }
