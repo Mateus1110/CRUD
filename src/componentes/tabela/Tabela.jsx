@@ -49,8 +49,14 @@ import './Tabela.css'
           props.load_table()
       }catch(erro){
           console.log(erro);
-      }    
-  }
+      } 
+    }
+
+    function handleUpdateClick(id){
+      props.setId(id)
+      props.setShowUpdateSection(true)
+    }
+
 
     return (
       <Paper className={classes.root}>
@@ -84,7 +90,7 @@ import './Tabela.css'
                       )
                     })}
                     <TableCell><button className='table-button' data-id={row.id} onClick={(event) => delete_row(event.target.dataset.id)}>Deletar</button></TableCell>
-                  <TableCell><button className='table-button' data-id={row.id}>Editar</button></TableCell>
+                  <TableCell><button className='table-button' data-id={row.id} onClick={(event) => handleUpdateClick(event.target.dataset.id)}>Editar</button></TableCell>
                   </TableRow>
                 );
               })}
